@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaGo</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        nav {
+            background: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            background: #575757;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .main-content h1 {
+            color: #007acc;
+        }
+
+        .main-content p {
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+		pre {
+			background: lightgrey;
+		}
+	</style>
+</head>
+<body>
+<header>
+	<div class="container">
+		<h1>JavaGo</h1>
+	</div>
+</header>
+
+<nav>
+	<div class="container">
+		<a href="#home">Home</a>
+		<a href="#overview">Overview</a>
+		<a href="#docs">Docs</a>
+		<a href="#blog">Blog</a>
+		<a href="#about">About</a>
+	</div>
+</nav>
+
+<div class="main-content container">
+	<section id="home">
+		<h1>Welcome to the JavaGo Library</h1>
+		<p>
+			Java Go is a library that implements Go's concurrency features in Java so you can write multithreaded
+			applications in Java as easily as in Go.
+		</p>
+	</section>
+
+	<section id="overview">
+		<h1>Overview</h1>
+		<p>
+			Go's philosophy when it comes to concurrency is that programmers should not communicate by sharing memory,
+			instead they should share memory by communicating. This library brings this philosophy to Java by
+			implementing the <code>go</code> and <code>select</code> statements along with channels, wait groups, and
+			the entire sync package.
+		</p>
+		<p>
+			To demonstrate why this is useful, observe the following Go program which starts a goroutine that counts to
+			ten and then returns.
+		</p>
+<pre>
+<code>
+// Sample Go program that starts a goroutine which counts to 10 and then returns.
+package main
+
+import (
+  "fmt"
+  "time"
+)
+
+package main
+
+import (
+  "fmt"
+  "sync"
+)
+
+func count(n int, wg *sync.WaitGroup) {
+  defer wg.Done()
+  for i := 1; i <= n; i++ {
+	fmt.Println(i)
+  }
+}
+
+func main() {
+  var wg sync.WaitGroup
+  wg.Add(1)
+  go count(10, &wg)
+  wg.Wait()
+}
+</code>
+</pre>
+		<p>
+			By leveraging the JavaGo library, this program can be easily translated to Java as shown below.
+		</p>
+<pre>
+<code>
+import io.javago.sync.WaitGroup;
+
+import static io.javago.Go.go;
+
+public class Count {
+
+  public static void main(String[] args) {
+    WaitGroup wg = new WaitGroup();
+    wg.add(1);
+    go(() -> count(10, wg));
+    wg.await();
+  }
+
+  private static void count(int n, WaitGroup wg) {
+    try (wg) {
+      for (int i = 1; i <= n; i++) {
+        System.out.println(i);
+      }
+    }
+  }
+}
+</code>
+</pre>
+		<p>
+			This means that we are now able to write a multithreaded Java program without touching the
+			<code>Thread</code> class or <code>java.util.concurrent</code> package at all.
+		</p>
+	</section>
+
+	<section id="docs">
+		<h1>Documentation</h1>
+		<p>
+			Detailed documentation for this package can be found <a href="docs/index.html">here</a>.
+		</p>
+		<p>
+			To view the source code for this library, click <a href="https://github.com/WilliamYin2024/JavaGo">here</a>.
+		</p>
+	</section>
+
+	<section id="blog">
+		<h1>Blog</h1>
+		<p>
+			To learn how I created this library and stay up to date with anything else I create, follow my Medium blog
+			<a href="https://medium.com/@william.yin.2024">here</a>.
+		</p>
+	</section>
+
+	<section id="about">
+		<h1>About</h1>
+		<p>
+			I wrote this library because I was fascinated by how fun and painless Go made multithreaded programming. I
+			hope that by using this library, you will find multithreaded programming in Java just as fun and painless as
+			in Go.
+		</p>
+	</section>
+</div>
+
+<!--<footer>-->
+<!--	<div class="container">-->
+<!--		<p>&copy; 2024 JavaGo. All rights reserved.</p>-->
+<!--	</div>-->
+<!--</footer>-->
+</body>
+</html>

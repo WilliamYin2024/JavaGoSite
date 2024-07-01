@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.javago"},{"l":"io.javago.sync"}];updateSearchResults();
