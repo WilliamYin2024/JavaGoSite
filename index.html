@@ -46,6 +46,7 @@
 
         .main-content {
             padding: 20px;
+			margin-bottom: 60px;
         }
 
         .main-content h1 {
@@ -66,9 +67,24 @@
             bottom: 0;
         }
 
-		pre {
-			background: lightgrey;
+		.code {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            font-family: 'Consolas', 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
 		}
+
+        pre {
+            padding: 16px;
+            overflow: auto;
+        }
+        .keyword { color: #569cd6; }
+        .function { color: #dcdcaa; }
+        .type { color: #4ec9b0; }
+        .string { color: #d69d85; }
+        .comment { color: #6a9955; }
+        .number { color: #b5cea8; }
 	</style>
 </head>
 <body>
@@ -109,66 +125,70 @@
 			To demonstrate why this is useful, observe the following Go program which starts a goroutine that counts to
 			ten and then returns.
 		</p>
+<div class="code">
 <pre>
 <code>
-// Sample Go program that starts a goroutine which counts to 10 and then returns.
-package main
+// <span class="comment">Sample Go program that starts a goroutine which counts to 10 and then returns.</span>
+<span class="keyword">package</span> <span class="type">main</span>
 
-import (
-  "fmt"
-  "time"
+<span class="keyword">import</span> (
+  <span class="string">"fmt"</span>
+  <span class="string">"time"</span>
 )
 
-package main
+<span class="keyword">package</span> <span class="type">main</span>
 
-import (
-  "fmt"
-  "sync"
+<span class="keyword">import</span> (
+  <span class="string">"fmt"</span>
+  <span class="string">"sync"</span>
 )
 
-func count(n int, wg *sync.WaitGroup) {
-  defer wg.Done()
-  for i := 1; i <= n; i++ {
-	fmt.Println(i)
+<span class="keyword">func</span> <span class="function">count</span>(n <span class="type">int</span>, wg *<span class="type">sync.WaitGroup</span>) {
+  <span class="keyword">defer</span> wg.<span class="function">Done</span>()
+  <span class="keyword">for</span> i := <span class="number">1</span>; i <= n; i++ {
+	fmt.<span class="function">Println</span>(i)
   }
 }
 
-func main() {
-  var wg sync.WaitGroup
-  wg.Add(1)
-  go count(10, &wg)
-  wg.Wait()
+<span class="keyword">func</span> <span class="function">main</span>() {
+  <span class="keyword">var</span> wg <span class="type">sync.WaitGroup</span>
+  wg.<span class="function">Add</span>(<span class="number">1</span>)
+  <span class="keyword">go</span> <span class="function">count</span>(<span class="number">10</span>, &wg)
+  wg.<span class="function">Wait</span>()
 }
 </code>
 </pre>
+</div>
 		<p>
 			By leveraging the JavaGo library, this program can be easily translated to Java as shown below.
 		</p>
+<div class="code">
 <pre>
 <code>
-import io.javago.sync.WaitGroup;
+<span class="keyword">import</span> io.javago.sync.WaitGroup;
 
-import static io.javago.Go.go;
+<span class="keyword">import static</span> io.javago.Go.go;
 
-public class Count {
+<span class="keyword">public class</span> <span class="type">Count</span> {
 
-  public static void main(String[] args) {
-    WaitGroup wg = new WaitGroup();
-    wg.add(1);
-    go(() -> count(10, wg));
+  <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+    <span class="type">WaitGroup</span> wg = <span class="keyword">new</span> <span class="type">WaitGroup</span>();
+    wg.add(<span class="number">1</span>);
+    go(() -> <span class="function">count</span>(<span class="number">10</span>, wg));
     wg.await();
   }
 
-  private static void count(int n, WaitGroup wg) {
-    try (wg) {
-      for (int i = 1; i <= n; i++) {
-        System.out.println(i);
+  <span class="keyword">private static void</span> <span class="function">count</span>(<span class="type">int</span> n, <span class="type">WaitGroup</span> wg) {
+    <span class="keyword">try</span> (wg) {
+      <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i <= n; i++) {
+        <span class="type">System</span>.out.println(i);
       }
     }
   }
 }
 </code>
 </pre>
+</div>
 		<p>
 			This means that we are now able to write a multithreaded Java program without touching the
 			<code>Thread</code> class or <code>java.util.concurrent</code> package at all.
@@ -203,10 +223,10 @@ public class Count {
 	</section>
 </div>
 
-<!--<footer>-->
-<!--	<div class="container">-->
-<!--		<p>&copy; 2024 JavaGo. All rights reserved.</p>-->
-<!--	</div>-->
-<!--</footer>-->
+<footer>
+	<div class="container">
+		<p>&copy; 2024 JavaGo. All rights reserved.</p>
+	</div>
+</footer>
 </body>
 </html>
